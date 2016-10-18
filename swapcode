@@ -1,0 +1,176 @@
+     Steven Doris
+
+
+     ArraySequence Code
+
+        /**
+     * Swap items at the given indices. (Iterators should remain connected
+     * to same data)
+     * @param i Index of first item
+     * @param j Index of second item
+     * @throws IndexOutOfBoundsException if either index is invalid
+     */
+    public void swap(int i, int j) throws IndexOutOfBoundsException{
+        if (i < 0 || i > n){
+            throw new IndexOutOfBoundsException();
+        }
+        if( j < 0 || j > n){
+            throw new IndexOutOfBoundsException();
+        }
+        
+        E temp = data[i].item;
+        data[i].item = data[j].item;
+        data[j].item = temp;
+    }
+
+    /**
+     * Swap items at the given indices. (Iterators should remain connected
+     * to same data)
+     * @param p Iterator of first item
+     * @param q Iterator of second item
+     * @throws PositionOutOfBoundsException if either index is invalid
+     */
+    public void swap(Iterator p, Iterator q) throws PositionOutOfBoundsException{
+          if (indexOf(p) < 0 || indexOf(p) > n){
+                throw new IndexOutOfBoundsException();
+          }
+          if (indexOf(q) < 0 || indexOf(q) > n){
+                throw new IndexOutOfBoundsException();
+          }
+          swap(indexOf(p),indexOf(q));
+    }
+
+___________________________________________________________________________________________________________________________________
+
+
+    LinkedSequence Code
+
+            /**
+     * Swap items at the given indices. (Iterators should remain connected
+     * to same data)
+     * @param i Index of first item
+     * @param j Index of second item
+     * @throws IndexOutOfBoundsException if either index is invalid
+     */
+    public void swap(int i, int j) throws IndexOutOfBoundsException{
+        if (i < 0 || i > n){
+            throw new IndexOutOfBoundsException();
+        }
+        if( j < 0 || j > n){
+            throw new IndexOutOfBoundsException();
+        }
+        SequenceIterator p = atIndex(i); 
+        SequenceIterator q = atIndex(j);  
+        LinkedSequenceIterator lsp = new LinkedSequenceIterator(checkAndConvertIterator(p).theNode, this);
+        LinkedSequenceIterator lsq = new LinkedSequenceIterator(checkAndConvertIterator(q).theNode, this);
+
+        E temp = lsp.theNode.data;
+        lsp.theNode.data = lsq.theNode.data;
+        lsq.theNode.data = temp;
+        //Node swap1 = new Node(lsq.theNode.data, lsq.theNode.prev, lsq,theNode);
+        //Node swap = new Node(lsp.theNode.data, lsp.theNode.prev, lsp,theNode);
+        //lsq.theNode.prev.next = swap;
+        //lsq.theNode.prev = swap; 
+        //lsp.theNode.prev.next = swap1;
+        //lsp.theNode.prev = swap1;
+       
+    }
+
+    /**
+     * Swap items at the given indices. (Iterators should remain connected
+     * to same data)
+     * @param p Iterator of first item
+     * @param q Iterator of second item
+     * @throws PositionOutOfBoundsException if either index is invalid
+     */
+    public void swap(Iterator p, Iterator q) throws PositionOutOfBoundsException{
+          if (indexOf(p) < 0 || indexOf(p) > n){
+                throw new IndexOutOfBoundsException();
+          }
+          if (indexOf(q) < 0 || indexOf(q) > n){
+                throw new IndexOutOfBoundsException();
+          }
+          swap(indexOf(p),indexOf(q));
+          
+    }
+
+    ___________________________________________________________________________________________________________________________________
+
+    Test Cases
+
+    OutOfBoundsException Test: 
+
+    void testiLessThan(){
+        int i = -1;
+        int j = 0;
+        seq.swap (i,j);
+        System.out.println("Fail: expected OutOfBoundsException error, value i less than 0")
+    }
+    
+
+    NullCheck
+
+    void testNull(){
+        for(int x = 0; x<100; x++){
+            seq.add(x);
+        }
+        swap(1, 83);
+        for(int x = 0; x<100; x++){
+            E tester = seq.get(x);
+            if (tester == null){
+                System.out.println("Fail: null value in array after swap, not expected");
+            }
+
+        }
+        System.out.println("Pass");
+    }
+
+    SizeCheck
+
+    void testSize(){
+        for(int x = 0; x<100; x++){
+            seq.add(x);
+        }
+        testsizeO = n;
+        seq.swap(1, 83);
+        testsizeA = n;
+        if (n != n){
+            System.out.println("Fail: size change")
+        }
+        else{
+            System.out.println("Pass");
+        }
+    }
+
+    MultipleSwapcheck
+
+    void multipleSwapCheck(){
+        for(int x = 0; x<10; x++){
+            seq.add(x);
+        }
+        for(int y = 0; y < 9; y++){
+            seq.swap(y, y+1);
+        }
+        System.out.println("Pass");
+
+    }
+
+    Locationcheck
+
+    void locationCheck(){
+        for(int x = 1; x<100; x++){
+            seq.add(x);
+        }
+        seq.swap(20, 56);
+
+        E a = seq.get(20);
+        E b = seq.get(56);
+
+        if (a == 56 && b == 20){
+           System.out.println("Pass"); 
+        }
+        else{
+
+            System.out.println("Fail: did not swap variables");
+        }
+    }
